@@ -8,12 +8,28 @@
 </head>
 <body>
     <h1>Crypto API</h1>
-    <form id="myForm">
-        <label for="inputField">Input:</label>
-        <input type="text" id="inputField" placeholder="Enter your text here" required>
+<!--    <form id="myForm">-->
+<!--        <label for="inputField">Input:</label>-->
+<!--        <input type="text" id="inputField" placeholder="Enter your text here" required>-->
+<!--        <button type="submit">Submit</button>-->
+<!--    </form>-->
+<!--    <div id="outputBlock"></div>-->
+
+    <form id="basePriceForm">
+        <label for="inputTicker">Input:</label>
+        <input type="text" id="inputTicker" placeholder="Enter your text here" required>
         <button type="submit">Submit</button>
     </form>
-    <div id="outputBlock"></div>
+    <div id="outputBasePrice"></div>
+    <div id="outputBasePriceList"></div>
+
+    <form id="tradePairsForm">
+        <label for="inputPairsTicker">Input:</label>
+        <input type="text" id="inputPairsTicker" placeholder="Enter your text here">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="outputTradePairs"></div>
+    <div id="outputTradePairsList"></div>
     <script src="dist/bundle.js"></script>
 </body>
 </html>
