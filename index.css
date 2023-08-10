@@ -1,0 +1,4 @@
+.parentColumn {
+    display: flex;
+    flex-direction: row;
+}

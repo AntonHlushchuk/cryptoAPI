@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CryptoAPI</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <h1>Crypto API</h1>
@@ -28,8 +29,11 @@
         <input type="text" id="inputPairsTicker" placeholder="Enter your text here">
         <button type="submit">Submit</button>
     </form>
-    <div id="outputTradePairs"></div>
-    <div id="outputTradePairsList"></div>
+    <div class="parentColumn">
+        <div id="outputTradePairs"></div>
+        <div id="outputTradePairsList"></div>
+        <div id="outputTradeUSDTPairs"></div>
+    </div>
     <script src="dist/bundle.js"></script>
 </body>
 </html>

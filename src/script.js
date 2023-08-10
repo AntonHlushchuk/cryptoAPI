@@ -112,13 +112,30 @@ document.getElementById("tradePairsForm").addEventListener("submit", function(ev
         .then(response => {
             const data = response.data;
             const tickerPairs = getTradePairsByTicker(data, inputText);
-            console.log('tickerPairs', tickerPairs)
             displayTickerPairsList(tickerPairs);
+            const candidates = potentialTickerPairsCandidates(tickerPairs);
+            displayUSDTTickerPairsList(candidates);
         })
         .catch(error => {
             displayTickerPairsError(error.message);
         });
 });
+
+function potentialTickerPairsCandidates(tickerPairs) {
+    const BTCUSDTPair = tickerPairs.find(pair => {
+        const priceDotIndex = pair.price.indexOf(".");
+        if (pair.symbol.startsWith('BTC') && priceDotIndex === 5) {
+            return pair;
+        }
+    })
+
+    return tickerPairs.map(pair => {
+        return {
+           priceToAltCoint: BTCUSDTPair.price / pair.price,
+            altCointName: pair.symbol
+        }
+    });
+}
 
 function getTradePairsByTicker(arrayOfTickerPairs, ticker) {
     return arrayOfTickerPairs.filter(pair => {
@@ -137,6 +154,21 @@ function displayTickerPairsList(tickerPairs) {
     outputBlock.innerHTML = `
       <ul>
         ${tickerPairs.map(pair => `<li>Symbol: ${pair.symbol}, Price: ${pair.price}</li>`).join('')}
+      </ul>
+    `;
+}
+
+function displayUSDTTickerPairsList(candidates) {
+    const outputBlock = document.getElementById("outputTradeUSDTPairs");
+
+    if (candidates.length === 0) {
+        outputBlock.innerHTML = "<p>No results found.</p>";
+        return;
+    }
+
+    outputBlock.innerHTML = `
+      <ul>
+        ${candidates.map(candidate => `<li>CanBuyAmountOf: ${candidate.altCointName.replace('USDT', '')}, Price: ${candidate.priceToAltCoint}</li>`).join('')}
       </ul>
     `;
 }
