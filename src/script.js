@@ -177,3 +177,48 @@ function displayTickerPairsError(errorMessage) {
     const outputBlock = document.getElementById("outputTradePairs");
     outputBlock.innerHTML = `<p>Error: ${errorMessage}</p>`;
 }
+
+const apiProfitUrl = 'https://api3.binance.com/api/v3/ticker/24hr';
+
+document.getElementById("profitForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const inputText = document.getElementById("inputProfit").value;
+    axios.get(apiProfitUrl, {
+        params: {
+            symbol: `${inputText}`,
+        },
+    })
+        .then(response => {
+            const data = response.data;
+            const profitResult = getProfit(data);
+            displayProfit(profitResult);
+        })
+        .catch(error => {
+            displayProfitError(error.message);
+        });
+});
+
+function getProfit(data) {
+    console.log('data', data);
+    const arbitrageThreshold = 0.01;
+    let potentialProfit = 0;
+    if (data.bidPrice * (1 + arbitrageThreshold) < data.askPrice) {
+        potentialProfit = data.askPrice - data.bidPrice;
+        console.log(`Можно совершить арбитраж! Потенциальная прибыль: ${potentialProfit}`);
+    } else {
+        console.log("Нет возможности для арбитража");
+    }
+    return potentialProfit;
+}
+
+function displayProfit(profit) {
+    const outputBlock = document.getElementById("profitOutcome");
+    outputBlock.innerHTML = `
+      <p>Profit: ${profit}</p>
+    `;
+}
+
+function displayProfitError(errorMessage) {
+    const outputBlock = document.getElementById("profitOutcome");
+    outputBlock.innerHTML = `<p>Error: ${errorMessage}</p>`;
+}
